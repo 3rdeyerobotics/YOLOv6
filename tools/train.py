@@ -59,6 +59,7 @@ def get_args_parser(add_help=True):
     parser.add_argument('--height', type=int, default=None, help='image height of model input')
     parser.add_argument('--width', type=int, default=None, help='image width of model input')
     parser.add_argument('--cache-ram', action='store_true', help='whether to cache images into RAM to speed up training')
+    parser.add_argument('--freeze_backbone', nargs='?', const=True, default=False, help="freeze the backbone while training")
     return parser
 
 
@@ -130,6 +131,13 @@ def main(args):
     if args.quant and args.calib:
         trainer.calibrate(cfg)
         return
+    # Freeze backbone if desired
+    if args.freeze_backbone:
+        for k, v in trainer.model.named_parameters():
+            v.requires_grad = True  # train all layers
+            if k.startswith('backbone'):
+                v.requires_grad = False  # freeze backbone
+
     trainer.train()
 
     # End
