@@ -622,6 +622,11 @@ class TrainValDataset(Dataset):
             if labels:
                 for label in labels:
                     c, x, y, w, h = label[:5]
+                    c = int(c)
+                    x = float(x)
+                    y = float(y)
+                    w = float(w)
+                    h = float(h)
                     # convert x,y,w,h to x1,y1,x2,y2
                     x1 = (x - w / 2) * img_w
                     y1 = (y - h / 2) * img_h

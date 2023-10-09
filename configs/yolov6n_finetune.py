@@ -63,3 +63,8 @@ data_aug = dict(
     mosaic=1.0,
     mixup=0.243,
 )
+
+eval_params = dict(
+    do_coco_metric=False,
+    do_pr_metric=True
+)
